@@ -85,6 +85,23 @@ export async function login(username, password) {
     return data;
 }
 
+// register
+export async function register(username, password) {
+    const data = await apiFetch("/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        // Backend likely expects username/password. Adjust if needed based on backend docs (but none provided, assuming standard).
+        body: JSON.stringify({ username, password }),
+    });
+
+    // If backend auto-logins on register and returns token:
+    if (data.token) {
+        setAuthToken(data.token);
+    }
+
+    return data;
+}
+
 // history
 export function getHistory() {
     return apiFetch("/history");

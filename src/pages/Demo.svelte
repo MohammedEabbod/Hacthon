@@ -61,70 +61,67 @@
 
 <!-- Skywalkers Demo - softer borders version -->
 <div
-  class="min-h-screen flex items-center justify-center px-4 py-8 text-[#DCE3F0] font-[Lexend]"
-  style="
-    background:
-      radial-gradient(circle at 15% 20%, rgba(154,200,205,0.35), transparent 55%),
-      radial-gradient(circle at 80% 80%, rgba(225,247,245,0.18), transparent 60%),
-      linear-gradient(135deg, #1E0342 0%, #0E46A3 45%, #0E46A3 80%);
-  "
+  class="min-h-screen flex items-center justify-center px-4 py-8 text-text-secondary font-['Lexend']"
 >
   <div class="w-full max-w-5xl">
     <!-- Header -->
     <div class="mb-6 flex items-center justify-between gap-4">
       <div>
-        <h1 class="text-3xl md:text-4xl font-semibold text-white tracking-tight">
+        <h1
+          class="text-3xl md:text-4xl font-bold text-text-main tracking-tight"
+        >
           Skywalkers Demo
         </h1>
-        <p class="mt-1 text-sm md:text-base text-[rgba(220,227,240,0.7)]">
-          Upload an image and let Skywalkers extract the text using Ollama OCR in a glassy, AI-driven interface.
+        <p class="mt-1 text-sm md:text-base text-text-secondary">
+          Upload an image and let Skywalkers extract the text using Ollama OCR
+          in a glassy, AI-driven interface.
         </p>
       </div>
 
       <div
         class="hidden md:flex items-center gap-2 px-4 py-2 rounded-full
-               border border-[rgba(225,247,245,0.25)]
-               bg-[rgba(255,255,255,0.06)]
+               border border-secondary-light/20
+               bg-white/5
                backdrop-blur-xl
                shadow-[0_16px_40px_rgba(14,70,163,0.28)]"
       >
-        <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
-        <span class="text-xs uppercase tracking-wide text-[#E1F7F5]">
+        <span class="h-2 w-2 rounded-full bg-secondary-teal"></span>
+        <span class="text-xs uppercase tracking-wide text-secondary-light">
           Demo Mode
         </span>
       </div>
     </div>
 
-    <!-- MAIN GLASS CARD (بس هو اللي عليه Border واضح) -->
+    <!-- MAIN GLASS CARD -->
     <div
       class="grid gap-6 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] items-start
-             rounded-[26px] p-5 md:p-7 lg:p-8
-             bg-[rgba(255,255,255,0.06)]
-             border border-[rgba(225,247,245,0.20)]
+             rounded-3xl p-5 md:p-7 lg:p-8
+             bg-white/5
+             border border-secondary-light/15
              backdrop-blur-2xl
              shadow-[0_20px_55px_rgba(14,70,163,0.40)]"
     >
       <!-- LEFT SIDE -->
       <div class="space-y-5">
-        <!-- Upload area (بدون border خارجي قوي، بس dashed خفيفة) -->
+        <!-- Upload area -->
         <label class="block cursor-pointer group">
           <div
-            class="rounded-[24px] p-5 md:p-7
-                   bg-[rgba(255,255,255,0.05)]
-                   group-hover:bg-[rgba(255,255,255,0.10)]
+            class="rounded-3xl p-5 md:p-7
+                   bg-white/5
+                   group-hover:bg-white/10
                    transition-all duration-200 ease-out
                    flex flex-col items-center justify-center text-center gap-3
-                   border border-dashed border-[rgba(225,247,245,0.22)]"
+                   border border-dashed border-secondary-light/20"
           >
             <div
               class="h-12 w-12 md:h-14 md:w-14 rounded-2xl flex items-center justify-center
-                     bg-[rgba(14,70,163,0.55)]
+                     bg-primary-blue/55
                      shadow-[0_12px_30px_rgba(14,70,163,0.65)]"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
-                class="h-7 w-7 text-[#E1F7F5]"
+                class="h-7 w-7 text-secondary-light"
                 fill="none"
                 stroke="currentColor"
                 stroke-width="1.7"
@@ -147,10 +144,12 @@
             </div>
 
             <div>
-              <p class="text-sm md:text-base text-white font-medium">
-                Drop an image here or <span class="text-[#9AC8CD]">browse files</span>
+              <p class="text-sm md:text-base text-text-main font-medium">
+                Drop an image here or <span class="text-secondary-teal"
+                  >browse files</span
+                >
               </p>
-              <p class="mt-1 text-xs md:text-sm text-[rgba(220,227,240,0.7)]">
+              <p class="mt-1 text-xs md:text-sm text-text-muted">
                 Supported formats: JPG, PNG, WebP — max ~5MB recommended.
               </p>
             </div>
@@ -168,19 +167,19 @@
         <div
           class="grid gap-4 md:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] items-center"
         >
-          <!-- STATUS (بدون border قوي، بس glass خفيف) -->
+          <!-- STATUS -->
           <div
             class="rounded-2xl px-4 py-3
-                   bg-[rgba(255,255,255,0.04)]
+                   bg-white/5
                    backdrop-blur-xl
-                   border border-[rgba(225,247,245,0.16)]
+                   border border-secondary-light/15
                    flex items-center justify-between gap-3"
           >
             <div class="space-y-0.5">
-              <p class="text-xs uppercase tracking-wide text-[rgba(220,227,240,0.7)]">
+              <p class="text-xs uppercase tracking-wide text-text-muted">
                 OCR Status
               </p>
-              <p class="text-sm font-medium text-white">
+              <p class="text-sm font-medium text-text-main">
                 {#if status === "idle"}
                   Waiting for image…
                 {:else if status === "uploading"}
@@ -199,12 +198,14 @@
               <div
                 class="h-2.5 w-2.5 rounded-full
                 {status === 'idle' ? 'bg-slate-400' : ''}
-                {status === 'uploading' ? 'bg-[#9AC8CD] animate-pulse' : ''}
-                {status === 'processing' ? 'bg-[#0E46A3] animate-pulse' : ''}
+                {status === 'uploading'
+                  ? 'bg-secondary-teal animate-pulse'
+                  : ''}
+                {status === 'processing' ? 'bg-primary-blue animate-pulse' : ''}
                 {status === 'done' ? 'bg-emerald-400' : ''}
                 {status === 'error' ? 'bg-red-400' : ''}"
               ></div>
-              <span class="text-[10px] uppercase tracking-wide text-[rgba(220,227,240,0.7)]">
+              <span class="text-[10px] uppercase tracking-wide text-text-muted">
                 {status.toUpperCase()}
               </span>
             </div>
@@ -215,15 +216,17 @@
             class="w-full inline-flex items-center justify-center gap-2
                    rounded-full px-5 py-3 text-sm md:text-base font-semibold
                    text-white
-                   bg-gradient-to-r from-[#0E46A3] to-[#9AC8CD]
-                   border border-[rgba(225,247,245,0.30)]
+                   bg-gradient-to-br from-primary-blue to-secondary-teal
+                   border border-secondary-light/30
                    shadow-[0_15px_35px_rgba(14,70,163,0.55)]
                    hover:shadow-[0_18px_45px_rgba(14,70,163,0.85)]
                    hover:brightness-110
                    transition-all duration-200 ease-out
                    disabled:opacity-50 disabled:cursor-not-allowed"
             on:click={handleSubmit}
-            disabled={!file || status === "uploading" || status === "processing"}
+            disabled={!file ||
+              status === "uploading" ||
+              status === "processing"}
           >
             {#if status === "idle" || status === "error"}
               <span>Run OCR with Ollama</span>
@@ -235,17 +238,17 @@
           </button>
         </div>
 
-        <!-- PROGRESS BAR (بدون border، بس خلفية ناعمة) -->
+        <!-- PROGRESS BAR -->
         <div class="space-y-2">
-          <div class="flex items-center justify-between text-[11px] text-[rgba(220,227,240,0.7)]">
+          <div
+            class="flex items-center justify-between text-[11px] text-text-muted"
+          >
             <span>Pipeline Progress</span>
             <span>{progress}%</span>
           </div>
-          <div
-            class="h-1.5 rounded-full bg-[rgba(255,255,255,0.06)] overflow-hidden"
-          >
+          <div class="h-1.5 rounded-full bg-white/5 overflow-hidden">
             <div
-              class="h-full bg-gradient-to-r from-[#0E46A3] via-[#9AC8CD] to-[#E1F7F5] transition-all duration-200"
+              class="h-full bg-gradient-to-r from-primary-blue via-secondary-teal to-secondary-light transition-all duration-200"
               style={`width: ${progress}%;`}
             ></div>
           </div>
@@ -264,17 +267,17 @@
       <div class="space-y-4">
         <!-- IMAGE PREVIEW -->
         <div
-          class="rounded-[24px] p-4 md:p-5
-                 bg-[rgba(255,255,255,0.05)]
-                 border border-[rgba(225,247,245,0.18)]
+          class="rounded-3xl p-4 md:p-5
+                 bg-white/5
+                 border border-secondary-light/15
                  backdrop-blur-2xl space-y-3"
         >
           <div class="flex items-center justify-between gap-2 mb-1">
             <div>
-              <p class="text-xs uppercase tracking-wide text-[rgba(220,227,240,0.7)]">
+              <p class="text-xs uppercase tracking-wide text-text-muted">
                 Input Image
               </p>
-              <p class="text-sm font-medium text-white">
+              <p class="text-sm font-medium text-text-main">
                 {file ? file.name : "No file selected yet"}
               </p>
             </div>
@@ -282,11 +285,11 @@
             {#if isCached}
               <span
                 class="inline-flex items-center gap-1 rounded-full
-                       border border-[#9AC8CD]/60
-                       bg-[#9AC8CD]/14 px-3 py-1
-                       text-[10px] font-medium text-[#E1F7F5]"
+                       border border-secondary-teal/60
+                       bg-secondary-teal/14 px-3 py-1
+                       text-[10px] font-medium text-secondary-light"
               >
-                <span class="h-1.5 w-1.5 rounded-full bg-[#9AC8CD]"></span>
+                <span class="h-1.5 w-1.5 rounded-full bg-secondary-teal"></span>
                 Cached Result
               </span>
             {/if}
@@ -294,8 +297,8 @@
 
           <div
             class="relative w-full aspect-video overflow-hidden rounded-2xl
-                   bg-[rgba(255,255,255,0.03)]
-                   border border-[rgba(225,247,245,0.16)]
+                   bg-white/5
+                   border border-secondary-light/15
                    flex items-center justify-center"
           >
             {#if previewUrl}
@@ -305,8 +308,9 @@
                 class="h-full w-full object-contain"
               />
             {:else}
-              <p class="text-xs md:text-sm text-[rgba(220,227,240,0.7)] px-4 text-center">
-                Your image preview will appear here once you select a file from the demo uploader.
+              <p class="text-xs md:text-sm text-text-muted px-4 text-center">
+                Your image preview will appear here once you select a file from
+                the demo uploader.
               </p>
             {/if}
           </div>
@@ -314,27 +318,27 @@
 
         <!-- OCR OUTPUT -->
         <div
-          class="rounded-[24px] p-4 md:p-5
-                 bg-[rgba(255,255,255,0.05)]
-                 border border-[rgba(225,247,245,0.18)]
+          class="rounded-3xl p-4 md:p-5
+                 bg-white/5
+                 border border-secondary-light/15
                  backdrop-blur-2xl flex flex-col gap-3"
         >
           <div class="flex items-center justify-between gap-2">
             <div>
-              <p class="text-xs uppercase tracking-wide text-[rgba(220,227,240,0.7)]">
+              <p class="text-xs uppercase tracking-wide text-text-muted">
                 OCR Output
               </p>
-              <p class="text-sm font-medium text-white">
+              <p class="text-sm font-medium text-text-main">
                 {status === "done" ? "Extracted text" : "Awaiting OCR result"}
               </p>
             </div>
 
             <button
               class="inline-flex items-center gap-1.5 rounded-full px-3 py-1
-                     text-[11px] font-medium text-[#E1F7F5]
-                     bg-[rgba(255,255,255,0.06)]
-                     border border-[rgba(225,247,245,0.26)]
-                     hover:bg-[rgba(255,255,255,0.12)]
+                     text-[11px] font-medium text-secondary-light
+                     bg-white/5
+                     border border-secondary-light/25
+                     hover:bg-white/10
                      transition-colors duration-200
                      disabled:opacity-40 disabled:cursor-not-allowed"
               on:click={() => {
@@ -371,20 +375,21 @@
 
           <div
             class="min-h-[120px] max-h-52 overflow-y-auto rounded-2xl
-                   bg-[rgba(0,0,0,0.22)]
-                   border border-[rgba(225,247,245,0.14)]
-                   px-3.5 py-3 text-xs md:text-sm text-[#DCE3F0]"
+                   bg-black/20
+                   border border-secondary-light/15
+                   px-3.5 py-3 text-xs md:text-sm text-text-secondary"
           >
             {#if status === "done" && ocrText}
               <p class="whitespace-pre-wrap">{ocrText}</p>
             {:else if status === "processing"}
-              <p class="animate-pulse text-[rgba(220,227,240,0.7)]">
+              <p class="animate-pulse text-text-muted">
                 Running OCR with Skywalkers engine… Please wait a moment.
               </p>
             {:else}
-              <p class="text-[rgba(220,227,240,0.7)]">
-                Once OCR is completed, the extracted text will appear here. Select an image and click
-                &ldquo;Run OCR with Ollama&rdquo; to get started.
+              <p class="text-text-muted">
+                Once OCR is completed, the extracted text will appear here.
+                Select an image and click &ldquo;Run OCR with Ollama&rdquo; to
+                get started.
               </p>
             {/if}
           </div>
