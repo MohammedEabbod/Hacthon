@@ -3,7 +3,7 @@
 
   // الصفحات
   import Home from './pages/Home.svelte';
-  import Login from './pages/login.svelte';
+  import Login from './pages/Login.svelte';
   import Register from './pages/Register.svelte';
   import Dashboard from './pages/Dashboard.svelte';
   import Demo from './pages/Demo.svelte';
