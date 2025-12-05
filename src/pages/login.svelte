@@ -10,7 +10,7 @@
         try {
             const res = await login(username, password);
             console.log("Logged in:", res.user);
-            push("/dashboard"); 
+            push("/dashboard");
         } catch (e) {
             error = "Login failed";
         }
@@ -20,20 +20,26 @@
 <div class="flex flex-col gap-24 pt-8 min-h-[80vh] justify-center">
     <section class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
         <!-- Left Side: Text -->
-        <div class="flex flex-col gap-6 items-center md:items-start text-center md:text-left">
+        <div
+            class="flex flex-col gap-6 items-center md:items-start text-center md:text-left"
+        >
             <div
                 class="inline-block px-4 py-2 bg-secondary-teal/10 border border-secondary-teal/30 rounded-full text-secondary-teal text-sm font-medium w-fit"
             >
                 Welcome Back
             </div>
-            <h1 class="text-4xl md:text-[3.5rem] leading-[1.1] font-bold text-text-main">
+            <h1
+                class="text-4xl md:text-[3.5rem] leading-[1.1] font-bold text-text-main"
+            >
                 Access Your <br />
                 <span
                     class="bg-gradient-to-br from-secondary-teal to-secondary-light bg-clip-text text-transparent"
-                >Workspace</span>
+                    >Workspace</span
+                >
             </h1>
             <p class="text-lg text-text-secondary leading-relaxed max-w-[90%]">
-                Sign in to continue managing your documents and extracting text with high precision.
+                Sign in to continue managing your documents and extracting text
+                with high precision.
             </p>
         </div>
 
@@ -49,16 +55,22 @@
 
                 <div class="flex flex-col gap-6 mt-4">
                     <h2 class="text-2xl font-bold text-text-main">Login</h2>
-                    
+
                     {#if error}
-                        <div class="p-4 bg-red-500/10 border border-red-500/30 rounded-xl text-red-200 text-sm text-center">
+                        <div
+                            class="p-4 bg-red-500/10 border border-red-500/30 rounded-xl text-red-200 text-sm text-center"
+                        >
                             {error}
                         </div>
                     {/if}
 
                     <div class="flex flex-col gap-4">
                         <div class="flex flex-col gap-2">
-                            <label for="username" class="text-sm font-medium text-text-secondary ml-1">Username</label>
+                            <label
+                                for="username"
+                                class="text-sm font-medium text-text-secondary ml-1"
+                                >Username</label
+                            >
                             <input
                                 id="username"
                                 type="text"
@@ -69,7 +81,11 @@
                         </div>
 
                         <div class="flex flex-col gap-2">
-                            <label for="password" class="text-sm font-medium text-text-secondary ml-1">Password</label>
+                            <label
+                                for="password"
+                                class="text-sm font-medium text-text-secondary ml-1"
+                                >Password</label
+                            >
                             <input
                                 id="password"
                                 type="password"
@@ -86,8 +102,19 @@
                             on:click={handleLogin}
                         >
                             Sign In
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                            <svg
+                                width="20"
+                                height="20"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <path
+                                    d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"
+                                ></path>
                                 <polyline points="10 17 15 12 10 7"></polyline>
                                 <line x1="15" y1="12" x2="3" y2="12"></line>
                             </svg>
@@ -98,4 +125,3 @@
         </div>
     </section>
 </div>
-

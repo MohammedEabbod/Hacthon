@@ -1,15 +1,32 @@
-<script lang="ts">
-  let file: File | null = null;
-  let previewUrl: string | null = null;
+<script>
+  import { runOcr } from "../services/api";
 
-  let status: "idle" | "uploading" | "processing" | "done" | "error" = "idle";
+  let file = null;
+  let previewUrl = null;
+
+  let status = "idle";
   let ocrText = "";
   let isCached = false;
   let errorMessage = "";
   let progress = 0;
 
-  function handleFileChange(event: Event) {
-    const input = event.target as HTMLInputElement;
+  // Demo limit logic
+  const DEMO_LIMIT = 999999;
+  let uploadCount = 0;
+
+  function checkLimit() {
+    const stored = localStorage.getItem("demo_upload_count");
+    uploadCount = stored ? parseInt(stored, 10) : 0;
+    return uploadCount < DEMO_LIMIT;
+  }
+
+  function incrementLimit() {
+    uploadCount++;
+    localStorage.setItem("demo_upload_count", uploadCount.toString());
+  }
+
+  function handleFileChange(event) {
+    const input = event.target;
     const selected = input.files?.[0];
 
     if (!selected) return;
@@ -23,12 +40,11 @@
 
     const reader = new FileReader();
     reader.onload = (e) => {
-      previewUrl = e.target?.result as string;
+      previewUrl = e.target?.result;
     };
     reader.readAsDataURL(selected);
   }
 
-  // TODO: اربطها مع /ocr الحقيقي بالباك
   async function handleSubmit() {
     if (!file) {
       errorMessage = "Please select an image to start OCR.";
@@ -36,25 +52,36 @@
       return;
     }
 
+    if (!checkLimit()) {
+      errorMessage = `Demo limit reached (${DEMO_LIMIT} images). Please register for unlimited access.`;
+      status = "error";
+      return;
+    }
+
     errorMessage = "";
     status = "uploading";
-    progress = 25;
+    progress = 10;
 
     try {
-      await new Promise((r) => setTimeout(r, 700));
-      status = "processing";
-      progress = 60;
+      // Simulate upload progress
+      const interval = setInterval(() => {
+        if (progress < 90) progress += 10;
+      }, 200);
 
-      await new Promise((r) => setTimeout(r, 900));
-      status = "done";
+      const result = await runOcr(file);
+
+      clearInterval(interval);
       progress = 100;
+      status = "done";
 
-      ocrText =
-        "Detected sample text from the uploaded image. Replace this with real OCR output from the Skywalkers backend.";
-      isCached = Math.random() > 0.5;
+      ocrText = result.text || "No text detected.";
+      isCached = result.cached || false;
+
+      incrementLimit();
     } catch (e) {
       status = "error";
-      errorMessage = "Something went wrong while processing the image.";
+      errorMessage =
+        e.message || "Something went wrong while processing the image.";
     }
   }
 </script>

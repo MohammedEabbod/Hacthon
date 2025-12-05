@@ -1,40 +1,18 @@
 // src/services/api.js
 
-// URL مالت الباك
-const API_URL =
-    import.meta.env.VITE_API_URL || "http://localhost:8000";
+import { get } from 'svelte/store';
+import { auth } from "../stores/auth";
 
-let authToken = null;
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
-// تحميل التوكن من localStorage
-export function loadAuthTokenFromStorage() {
-    const saved = localStorage.getItem("skywalkers_token");
-    if (saved) {
-        authToken = saved;
-    }
-}
-
-// حفظ التوكن بعد تسجيل الدخول
-export function setAuthToken(token) {
-    authToken = token;
-    localStorage.setItem("skywalkers_token", token);
-}
-
-// مسح التوكن
-export function clearAuthToken() {
-    authToken = null;
-    localStorage.removeItem("skywalkers_token");
-}
-
-// دالة fetch مركزية
+// Central fetch function
 export async function apiFetch(path, options = {}) {
-    const headers = {
-        Accept: "application/json",
-        ...(options.headers || {}),
-    };
+    const headers = new Headers(options.headers || {});
+    headers.set("Accept", "application/json");
 
-    if (authToken) {
-        headers["Authorization"] = `Bearer ${authToken}`;
+    const state = get(auth);
+    if (state.token) {
+        headers.set("Authorization", `Bearer ${state.token}`);
     }
 
     const res = await fetch(API_URL + path, {
@@ -43,7 +21,7 @@ export async function apiFetch(path, options = {}) {
     });
 
     if (res.status === 401) {
-        clearAuthToken();
+        auth.logout();
         throw new Error("Unauthorized");
     }
 
@@ -70,7 +48,7 @@ export async function apiFetch(path, options = {}) {
    ENDPOINT FUNCTIONS
 ========== */
 
-// login
+// Auth
 export async function login(username, password) {
     const data = await apiFetch("/auth/login", {
         method: "POST",
@@ -78,36 +56,35 @@ export async function login(username, password) {
         body: JSON.stringify({ username, password }),
     });
 
-    if (data.token) {
-        setAuthToken(data.token);
+    const token = data.token || data.access_token;
+    if (token) {
+        auth.login(data.user || { username }, token);
     }
 
     return data;
 }
 
-// register
-export async function register(username, password) {
+export async function register(username, password, email, phone) {
     const data = await apiFetch("/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        // Backend likely expects username/password. Adjust if needed based on backend docs (but none provided, assuming standard).
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ username, password, email, phone }),
     });
 
-    // If backend auto-logins on register and returns token:
-    if (data.token) {
-        setAuthToken(data.token);
+    const token = data.token || data.access_token;
+    if (token) {
+        auth.login(data.user || { username }, token);
     }
 
     return data;
 }
 
-// history
-export function getHistory() {
-    return apiFetch("/history");
+// History
+export function getHistory(page = 1, limit = 20) {
+    return apiFetch(`/history?limit=${limit}&page=${page}`);
 }
 
-// tokens
+// Tokens
 export function getTokens() {
     return apiFetch("/tokens");
 }
@@ -126,14 +103,20 @@ export function deleteToken(id) {
     });
 }
 
-// OCR – رفع صورة
+// OCR
 export async function runOcr(file) {
     const formData = new FormData();
     formData.append("file", file);
 
-    const res = await fetch(API_URL + "/ocr", {
+    const headers = new Headers();
+    const state = get(auth);
+    if (state.token) {
+        headers.set("Authorization", `Bearer ${state.token}`);
+    }
+
+    const res = await fetch(API_URL + "/upload/", {
         method: "POST",
-        headers: authToken ? { Authorization: `Bearer ${authToken}` } : {},
+        headers,
         body: formData,
     });
 
@@ -143,3 +126,8 @@ export async function runOcr(file) {
 
     return res.json();
 }
+
+// Compatibility object for existing code using 'api.history' style
+export const api = {
+    history: getHistory
+};
